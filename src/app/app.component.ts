@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { 
   IonApp, IonSplitPane, IonMenu, IonHeader, IonToolbar, 
@@ -11,7 +13,6 @@ import {
   cubeOutline, settingsOutline 
 } from 'ionicons/icons';
 import { DatabaseService } from './core/services/database.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['app.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     RouterModule,
     IonApp,
     IonSplitPane,
@@ -32,11 +34,12 @@ import { CommonModule } from '@angular/common';
     IonItem,
     IonIcon,
     IonLabel,
-    IonRouterOutlet,
-    CommonModule
+    IonRouterOutlet
   ],
 })
 export class AppComponent implements OnInit {
+  showMenu = false;
+  
   menuItems = [
     { title: 'Dashboard', url: '/dashboard', icon: 'home-outline' },
     { title: 'Clientes', url: '/clientes', icon: 'people-outline' },
@@ -46,12 +49,16 @@ export class AppComponent implements OnInit {
     { title: 'Configuración', url: '/configuracion', icon: 'settings-outline' }
   ];
 
-  constructor(private db: DatabaseService) {
+  constructor(
+    private db: DatabaseService,
+    private router: Router
+  ) {
     this.registerIcons();
   }
 
   async ngOnInit() {
     await this.db.init();
+    this.setupMenuVisibility();
   }
 
   private registerIcons() {
@@ -63,5 +70,23 @@ export class AppComponent implements OnInit {
       'cube-outline': cubeOutline,
       'settings-outline': settingsOutline
     });
+  }
+
+  private setupMenuVisibility() {
+    // Verificar ruta inicial
+    this.checkRoute(this.router.url);
+
+    // Escuchar cambios de ruta
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkRoute(event.url);
+      }
+    });
+  }
+
+  private checkRoute(url: string) {
+    const authRoutes = ['/splash', '/login', '/registro', '/recuperar'];
+    this.showMenu = !authRoutes.some(route => url.includes(route));
+    console.log('URL:', url, '| Mostrar menú:', this.showMenu);
   }
 }

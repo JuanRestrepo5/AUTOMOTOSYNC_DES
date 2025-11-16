@@ -6,12 +6,18 @@ export const AuthGuard = async () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const user = await authService.getCurrentUser();
-
-  if (user) {
-    return true;
-  } else {
-    router.navigate(['/login']);
+  try {
+    const user = await authService.getCurrentUser();
+    
+    if (user) {
+      return true;
+    } else {
+      router.navigate(['/login'], { replaceUrl: true });
+      return false;
+    }
+  } catch (error) {
+    console.error('Error en AuthGuard:', error);
+    router.navigate(['/login'], { replaceUrl: true });
     return false;
   }
 };

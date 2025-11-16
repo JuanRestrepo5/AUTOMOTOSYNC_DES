@@ -17,13 +17,25 @@ export class SplashPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    console.log('🚀 Splash Screen iniciado'); // Debug
+    
+    // Esperar 2 segundos
     await this.delay(2000);
     
-    const user = await this.authService.getCurrentUser();
+    console.log('⏰ Verificando autenticación...'); // Debug
     
-    if (user) {
-      this.router.navigate(['/dashboard'], { replaceUrl: true });
-    } else {
+    try {
+      const user = await this.authService.getCurrentUser();
+      
+      if (user) {
+        console.log('✅ Usuario autenticado, ir a dashboard'); // Debug
+        this.router.navigate(['/dashboard'], { replaceUrl: true });
+      } else {
+        console.log('❌ No autenticado, ir a login'); // Debug
+        this.router.navigate(['/login'], { replaceUrl: true });
+      }
+    } catch (error) {
+      console.error('Error verificando auth:', error); // Debug
       this.router.navigate(['/login'], { replaceUrl: true });
     }
   }

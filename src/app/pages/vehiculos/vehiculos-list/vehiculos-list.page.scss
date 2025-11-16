@@ -1,0 +1,20 @@
+.container {
+  padding: 16px;
+}
+
+.add-btn {
+  margin-bottom: 16px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
