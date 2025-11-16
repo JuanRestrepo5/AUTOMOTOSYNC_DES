@@ -1,0 +1,16 @@
+.stock-bajo {
+  --background: #fef3c7;
+  border-left: 4px solid var(--ion-color-danger);
+}
+
+.stock-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+
+  .stock-min {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+  }
+}

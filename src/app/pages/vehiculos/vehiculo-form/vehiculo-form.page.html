@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/vehiculos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Vehículo' : 'Nuevo Vehículo' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-card>
+      <ion-card-content>
+        <form [formGroup]="vehiculoForm" (ngSubmit)="onSubmit()">
+          
+          <ion-item>
+            <ion-label position="stacked">Placa *</ion-label>
+            <ion-input 
+              type="text" 
+              formControlName="placa"
+              placeholder="ABC123"
+              maxlength="6"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="vehiculoForm.get('placa')?.touched && vehiculoForm.get('placa')?.errors">
+            <p class="error-text">Placa inválida (6 caracteres alfanuméricos)</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Marca *</ion-label>
+            <ion-input 
+              type="text" 
+              formControlName="marca"
+              placeholder="Honda"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Modelo *</ion-label>
+            <ion-input 
+              type="text" 
+              formControlName="modelo"
+              placeholder="CG 125"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Año *</ion-label>
+            <ion-input 
+              type="number" 
+              formControlName="anio"
+              placeholder="2020"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="vehiculoForm.get('anio')?.touched && vehiculoForm.get('anio')?.errors">
+            <p class="error-text">Año inválido</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Tipo de vehículo *</ion-label>
+            <ion-select formControlName="tipo" placeholder="Seleccione">
+              <ion-select-option *ngFor="let tipo of tiposVehiculo" [value]="tipo.value">
+                {{ tipo.label }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Cliente *</ion-label>
+            <ion-select formControlName="clienteId" placeholder="Seleccione un cliente">
+              <ion-select-option *ngFor="let cliente of clientes" [value]="cliente.id">
+                {{ cliente.nombre }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="vehiculoForm.invalid || loading"
+            class="submit-btn"
+          >
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+            <span *ngIf="!loading">
+              {{ isEditMode ? 'Actualizar Vehículo' : 'Crear Vehículo' }}
+            </span>
+          </ion-button>
+
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            (click)="goBack()"
+            [disabled]="loading"
+          >
+            Cancelar
+          </ion-button>
+
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

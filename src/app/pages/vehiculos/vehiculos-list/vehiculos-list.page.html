@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gestión de Vehículos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-button expand="block" (click)="goToNuevoVehiculo()" class="add-btn">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Nuevo Vehículo
+    </ion-button>
+
+    <ion-card *ngIf="!loading && vehiculos.length > 0">
+      <ion-card-header>
+        <ion-card-title>Vehículos Registrados ({{ vehiculos.length }})</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let vehiculo of vehiculos" 
+                    (click)="goToDetalle(vehiculo)"
+                    button>
+            <ion-label>
+              <h2><strong>{{ vehiculo.placa }}</strong></h2>
+              <p>{{ vehiculo.marca }} {{ vehiculo.modelo }} ({{ vehiculo.anio }})</p>
+              <p>👤 {{ vehiculo.clienteNombre }}</p>
+              <ion-badge [color]="vehiculo.cantidadServicios > 0 ? 'success' : 'medium'">
+                {{ vehiculo.cantidadServicios }} servicios
+              </ion-badge>
+            </ion-label>
+            <ion-button fill="clear" slot="end" (click)="goToEditar(vehiculo, $event)">
+              <ion-icon name="create-outline" color="primary"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" slot="end" (click)="verHistorial(vehiculo, $event)">
+              <ion-icon name="list-outline" color="secondary"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" slot="end" (click)="confirmarEliminar(vehiculo, $event)">
+              <ion-icon name="trash-outline" color="danger"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Cargando vehículos...</p>
+    </div>
+
+    <ion-card *ngIf="!loading && vehiculos.length === 0">
+      <ion-card-content class="empty-state">
+        <ion-icon name="car-outline" size="large"></ion-icon>
+        <p>No hay vehículos registrados</p>
+        <ion-button (click)="goToNuevoVehiculo()">Agregar el primero</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

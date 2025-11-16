@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/ordenes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Orden' : 'Nueva Orden' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-card>
+      <ion-card-content>
+        <form [formGroup]="ordenForm" (ngSubmit)="onSubmit()">
+          
+          <ion-item>
+            <ion-label position="stacked">Cliente *</ion-label>
+            <ion-select formControlName="clienteId" placeholder="Seleccione un cliente">
+              <ion-select-option *ngFor="let cliente of clientes" [value]="cliente.id">
+                {{ cliente.nombre }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Vehículo *</ion-label>
+            <ion-select 
+              formControlName="vehiculoId" 
+              placeholder="Primero seleccione un cliente"
+              [disabled]="vehiculosFiltrados.length === 0"
+            >
+              <ion-select-option *ngFor="let vehiculo of vehiculosFiltrados" [value]="vehiculo.id">
+                {{ vehiculo.placa }} - {{ vehiculo.marca }} {{ vehiculo.modelo }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-text color="warning" *ngIf="ordenForm.get('clienteId')?.value && vehiculosFiltrados.length === 0">
+            <p class="error-text">Este cliente no tiene vehículos registrados</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Descripción del servicio *</ion-label>
+            <ion-textarea 
+              formControlName="descripcion"
+              rows="4"
+              placeholder="Cambio de aceite y filtro, revisión de frenos..."
+            ></ion-textarea>
+          </ion-item>
+          <ion-text color="danger" *ngIf="ordenForm.get('descripcion')?.touched && ordenForm.get('descripcion')?.errors">
+            <p class="error-text">La descripción debe tener al menos 10 caracteres</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Fecha del servicio *</ion-label>
+            <ion-datetime 
+              formControlName="fechaServicio"
+              presentation="date"
+            ></ion-datetime>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Mecánico asignado</ion-label>
+            <ion-input 
+              type="text" 
+              formControlName="mecanicoAsignado"
+              placeholder="Nombre del mecánico (opcional)"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Observaciones</ion-label>
+            <ion-textarea 
+              formControlName="observaciones"
+              rows="3"
+              placeholder="Notas adicionales..."
+            ></ion-textarea>
+          </ion-item>
+
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="ordenForm.invalid || loading"
+            class="submit-btn"
+          >
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+            <span *ngIf="!loading">
+              {{ isEditMode ? 'Actualizar Orden' : 'Crear Orden' }}
+            </span>
+          </ion-button>
+
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            (click)="goBack()"
+            [disabled]="loading"
+          >
+            Cancelar
+          </ion-button>
+
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

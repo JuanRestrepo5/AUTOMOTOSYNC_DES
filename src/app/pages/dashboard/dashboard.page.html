@@ -1,0 +1,163 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="sincronizar()">
+        <ion-icon 
+          [name]="isOnline ? 'cloud-done-outline' : 'cloud-offline-outline'"
+          [color]="isOnline ? 'success' : 'danger'"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="container" *ngIf="!loading">
+    <!-- Métricas principales -->
+    <div class="stats-grid">
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-icon">
+            <ion-icon name="construct-outline" color="primary"></ion-icon>
+          </div>
+          <h3>{{ stats.serviciosMes }}</h3>
+          <p>Servicios del mes</p>
+          <small>Total: {{ stats.totalServicios }}</small>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-icon">
+            <ion-icon name="car-outline" color="secondary"></ion-icon>
+          </div>
+          <h3>{{ stats.vehiculosAtendidos }}</h3>
+          <p>Vehículos atendidos</p>
+          <small>En proceso: {{ stats.vehiculosEnProceso }}</small>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card" style="grid-column: span 2;">
+        <ion-card-content>
+          <div class="stat-icon">
+            <ion-icon name="cash-outline" color="success"></ion-icon>
+          </div>
+          <h3>{{ formatCurrency(stats.ingresosMes) }}</h3>
+          <p>Ingresos del mes</p>
+          <ion-progress-bar 
+            [value]="getProgressoMeta() / 100"
+            color="success"
+          ></ion-progress-bar>
+          <small>Meta: {{ formatCurrency(stats.metaIngresos) }}</small>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Accesos rápidos -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Accesos Rápidos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="quick-actions">
+          <ion-button expand="block" fill="outline" (click)="navigateTo('/clientes')">
+            <ion-icon name="people-outline" slot="start"></ion-icon>
+            Clientes
+          </ion-button>
+          <ion-button expand="block" fill="outline" (click)="navigateTo('/vehiculos')">
+            <ion-icon name="car-outline" slot="start"></ion-icon>
+            Vehículos
+          </ion-button>
+          <ion-button expand="block" fill="outline" (click)="navigateTo('/ordenes')">
+            <ion-icon name="document-text-outline" slot="start"></ion-icon>
+            Órdenes
+          </ion-button>
+          <ion-button expand="block" fill="outline" (click)="navigateTo('/inventario')">
+            <ion-icon name="cube-outline" slot="start"></ion-icon>
+            Inventario
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Alertas de stock -->
+    <ion-card *ngIf="alertasStock.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="warning-outline" color="warning"></ion-icon>
+          Alertas de Stock ({{ alertasStock.length }})
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let repuesto of alertasStock">
+            <ion-label>
+              <h3>{{ repuesto.nombre }}</h3>
+              <p>Stock actual: {{ repuesto.stock }} - Mínimo: {{ repuesto.stockMinimo }}</p>
+            </ion-label>
+            <ion-badge slot="end" color="warning">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+            </ion-badge>
+          </ion-item>
+        </ion-list>
+        <ion-button expand="block" fill="clear" (click)="navigateTo('/inventario')">
+          Ver inventario completo
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Órdenes pendientes -->
+    <ion-card *ngIf="ordenesPendientes.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          Órdenes Pendientes ({{ ordenesPendientes.length }})
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let orden of ordenesPendientes" button (click)="navigateTo('/ordenes/detalle/' + orden.id)">
+            <ion-label>
+              <h3>{{ orden.numero }}</h3>
+              <p>{{ orden.descripcion }}</p>
+            </ion-label>
+            <ion-badge slot="end" color="warning">Pendiente</ion-badge>
+          </ion-item>
+        </ion-list>
+        <ion-button expand="block" fill="clear" (click)="navigateTo('/ordenes')">
+          Ver todas las órdenes
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Estado de sincronización -->
+    <ion-card>
+      <ion-card-content>
+        <div class="sync-status">
+          <ion-icon 
+            [name]="isOnline ? 'cloud-done' : 'cloud-offline'"
+            [color]="isOnline ? 'success' : 'danger'"
+            size="large"
+          ></ion-icon>
+          <div>
+            <h3>{{ isOnline ? 'Conectado' : 'Sin conexión' }}</h3>
+            <p>{{ isOnline ? 'Datos sincronizados' : 'Los cambios se sincronizarán al recuperar conexión' }}</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Cargando dashboard...</p>
+  </div>
+</ion-content>

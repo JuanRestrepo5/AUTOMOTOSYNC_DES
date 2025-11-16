@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inventario de Repuestos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-button expand="block" (click)="goToNuevoRepuesto()" class="add-btn">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Nuevo Repuesto
+    </ion-button>
+
+    <ion-card *ngIf="!loading && repuestos.length > 0">
+      <ion-card-header>
+        <ion-card-title>Repuestos en Stock ({{ repuestos.length }})</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let repuesto of repuestos" 
+                    [class.stock-bajo]="isStockBajo(repuesto)">
+            <ion-label>
+              <h2><strong>{{ repuesto.nombre }}</strong></h2>
+              <p>Código: {{ repuesto.codigo }}</p>
+              <p>Precio: {{ formatCurrency(repuesto.precio) }}</p>
+              <div class="stock-info">
+                <ion-badge [color]="getStockColor(repuesto)">
+                  Stock: {{ repuesto.stock }}
+                </ion-badge>
+                <span class="stock-min">Mínimo: {{ repuesto.stockMinimo }}</span>
+                <ion-icon 
+                  *ngIf="isStockBajo(repuesto)" 
+                  name="warning-outline" 
+                  color="danger"
+                ></ion-icon>
+              </div>
+            </ion-label>
+            <ion-button fill="clear" slot="end" (click)="goToEditar(repuesto, $event)">
+              <ion-icon name="create-outline" color="primary"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" slot="end" (click)="confirmarEliminar(repuesto, $event)">
+              <ion-icon name="trash-outline" color="danger"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Cargando inventario...</p>
+    </div>
+
+    <ion-card *ngIf="!loading && repuestos.length === 0">
+      <ion-card-content class="empty-state">
+        <ion-icon name="cube-outline" size="large"></ion-icon>
+        <p>No hay repuestos en el inventario</p>
+        <ion-button (click)="goToNuevoRepuesto()">Agregar el primero</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Órdenes de Servicio</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="filtroEstado" (ionChange)="cambiarFiltro($event)">
+      <ion-segment-button value="todas">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pendiente">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="en_proceso">
+        <ion-label>En Proceso</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="finalizado">
+        <ion-label>Finalizadas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-button expand="block" (click)="goToNuevaOrden()" class="add-btn">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Nueva Orden
+    </ion-button>
+
+    <ion-card *ngIf="!loading && ordenesFiltradas.length > 0">
+      <ion-card-header>
+        <ion-card-title>Órdenes ({{ ordenesFiltradas.length }})</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let orden of ordenesFiltradas" 
+                    (click)="goToDetalle(orden)"
+                    button>
+            <ion-label>
+              <h2>
+                <strong>{{ orden.numero }}</strong> - {{ orden.descripcion }}
+              </h2>
+              <p>🚗 {{ orden.vehiculoPlaca }} - {{ orden.vehiculoInfo }}</p>
+              <p>👤 {{ orden.clienteNombre }}</p>
+              <p>📅 {{ orden.fechaServicio | date:'dd/MM/yyyy' }}</p>
+              <ion-badge [color]="getEstadoColor(orden.estado)">
+                {{ getEstadoLabel(orden.estado) }}
+              </ion-badge>
+            </ion-label>
+            <ion-button fill="clear" slot="end" (click)="cambiarEstado(orden, $event)">
+              <ion-icon name="swap-horizontal-outline" color="secondary"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Cargando órdenes...</p>
+    </div>
+
+    <ion-card *ngIf="!loading && ordenesFiltradas.length === 0">
+      <ion-card-content class="empty-state">
+        <ion-icon name="document-text-outline" size="large"></ion-icon>
+        <p>No hay órdenes con este filtro</p>
+        <ion-button (click)="goToNuevaOrden()">Crear nueva orden</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

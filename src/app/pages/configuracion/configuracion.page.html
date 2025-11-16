@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Perfil de Usuario</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [value]="usuario.nombre" readonly></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Correo electrónico</ion-label>
+          <ion-input [value]="usuario.email" readonly></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Sincronización con Firebase</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="sync-status">
+          <ion-icon 
+            [name]="isOnline ? 'cloud-done-outline' : 'cloud-offline-outline'"
+            [color]="isOnline ? 'success' : 'danger'"
+            size="large"
+          ></ion-icon>
+          <div class="sync-info">
+            <h3>Estado: {{ isOnline ? 'Conectado' : 'Sin conexión' }}</h3>
+            <p>Última sincronización: {{ ultimaSync }}</p>
+          </div>
+        </div>
+
+        <ion-button 
+          expand="block" 
+          (click)="sincronizarManual()"
+          [disabled]="!isOnline"
+        >
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Sincronizar Ahora
+        </ion-button>
+
+        <ion-text color="medium">
+          <p style="font-size: 12px; margin-top: 12px;">
+            Los datos se sincronizan automáticamente cada 5 minutos. En caso de no tener conexión, 
+            los cambios se guardarán localmente y se sincronizarán al recuperar la conexión.
+          </p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Información del Sistema</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label>
+              <h3>Versión de la aplicación</h3>
+              <p>v1.0.0</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h3>Base de datos local</h3>
+              <p>Ionic Storage (SQLite)</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h3>Almacenamiento en la nube</h3>
+              <p>Firebase Firestore</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-button 
+          expand="block" 
+          color="danger"
+          (click)="confirmarCerrarSesion()"
+        >
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar Sesión
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

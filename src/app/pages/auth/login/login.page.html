@@ -1,0 +1,74 @@
+<ion-content class="auth-content">
+  <div class="auth-container">
+    <div class="logo-section">
+      <div class="logo">A</div>
+      <h1>AUTOMOTOSYNC</h1>
+      <p>Gestión de talleres mecánicos</p>
+    </div>
+
+    <ion-card class="auth-card">
+      <ion-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+            <ion-input 
+              type="email" 
+              formControlName="email"
+              placeholder="Correo electrónico"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors">
+            <p class="error-text">Ingrese un correo válido</p>
+          </ion-text>
+
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+            <ion-input 
+              [type]="showPassword ? 'text' : 'password'" 
+              formControlName="password"
+              placeholder="Contraseña"
+            ></ion-input>
+            <ion-button 
+              fill="clear" 
+              slot="end" 
+              (click)="togglePasswordVisibility()"
+            >
+              <ion-icon 
+                [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                color="medium"
+              ></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-text color="danger" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors">
+            <p class="error-text">La contraseña debe tener al menos 6 caracteres</p>
+          </ion-text>
+
+          <div class="remember-forgot">
+            <ion-checkbox formControlName="rememberMe"></ion-checkbox>
+            <ion-label>Recordar sesión</ion-label>
+            <a (click)="goToRecuperar()" class="forgot-link">¿Olvidó su contraseña?</a>
+          </div>
+
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="loginForm.invalid"
+            class="submit-btn"
+          >
+            Iniciar Sesión
+          </ion-button>
+
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            (click)="goToRegistro()"
+          >
+            Crear cuenta
+          </ion-button>
+
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

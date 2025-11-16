@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inventario"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Repuesto' : 'Nuevo Repuesto' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-card>
+      <ion-card-content>
+        <form [formGroup]="repuestoForm" (ngSubmit)="onSubmit()">
+          
+          <ion-item>
+            <ion-label position="stacked">Nombre del repuesto *</ion-label>
+            <ion-input 
+              type="text" 
+              formControlName="nombre"
+              placeholder="Filtro de aceite"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="repuestoForm.get('nombre')?.touched && repuestoForm.get('nombre')?.errors">
+            <p class="error-text">El nombre es requerido (mínimo 3 caracteres)</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Código *</ion-label>
+            <ion-input 
+              type="text" 
+              formControlName="codigo"
+              placeholder="FA-001"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="repuestoForm.get('codigo')?.touched && repuestoForm.get('codigo')?.errors">
+            <p class="error-text">El código es requerido</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Descripción</ion-label>
+            <ion-textarea 
+              formControlName="descripcion"
+              rows="3"
+              placeholder="Filtro compatible con Honda, Yamaha..."
+            ></ion-textarea>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Precio unitario *</ion-label>
+            <ion-input 
+              type="number" 
+              formControlName="precio"
+              placeholder="15000"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="repuestoForm.get('precio')?.touched && repuestoForm.get('precio')?.errors">
+            <p class="error-text">El precio debe ser mayor o igual a 0</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Cantidad en stock *</ion-label>
+            <ion-input 
+              type="number" 
+              formControlName="stock"
+              placeholder="10"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="repuestoForm.get('stock')?.touched && repuestoForm.get('stock')?.errors">
+            <p class="error-text">La cantidad debe ser mayor o igual a 0</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="stacked">Stock mínimo (alerta) *</ion-label>
+            <ion-input 
+              type="number" 
+              formControlName="stockMinimo"
+              placeholder="5"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="repuestoForm.get('stockMinimo')?.touched && repuestoForm.get('stockMinimo')?.errors">
+            <p class="error-text">El stock mínimo debe ser mayor o igual a 0</p>
+          </ion-text>
+
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="repuestoForm.invalid || loading"
+            class="submit-btn"
+          >
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+            <span *ngIf="!loading">
+              {{ isEditMode ? 'Actualizar Repuesto' : 'Crear Repuesto' }}
+            </span>
+          </ion-button>
+
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            (click)="goBack()"
+            [disabled]="loading"
+          >
+            Cancelar
+          </ion-button>
+
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

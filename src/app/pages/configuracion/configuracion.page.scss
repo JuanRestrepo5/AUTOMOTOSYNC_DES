@@ -1,0 +1,23 @@
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+
+  .sync-info {
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 4px 0 0 0;
+      font-size: 13px;
+      color: var(--ion-color-medium);
+    }
+  }
+}

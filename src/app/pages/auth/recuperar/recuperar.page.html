@@ -1,0 +1,46 @@
+<ion-content class="auth-content">
+  <div class="auth-container">
+    <div class="logo-section">
+      <div class="logo">🔑</div>
+      <h1>Recuperar Contraseña</h1>
+      <p>Te enviaremos un correo para restablecer tu contraseña</p>
+    </div>
+
+    <ion-card class="auth-card">
+      <ion-card-content>
+        <form [formGroup]="recuperarForm" (ngSubmit)="onSubmit()">
+          
+          <ion-item lines="none" class="input-item">
+            <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+            <ion-input 
+              type="email" 
+              formControlName="email"
+              placeholder="Correo electrónico"
+            ></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="recuperarForm.get('email')?.touched && recuperarForm.get('email')?.errors">
+            <p class="error-text">Ingrese un correo válido</p>
+          </ion-text>
+
+<ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="recuperarForm.invalid"
+            class="submit-btn"
+          >
+            Enviar correo
+          </ion-button>
+
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            (click)="goToLogin()"
+          >
+            Volver al inicio
+          </ion-button>
+
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

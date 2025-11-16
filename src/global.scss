@@ -1,0 +1,117 @@
+/* Ionic CSS Core */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+
+/* Optional utilities */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+@import "@ionic/angular/css/display.css";
+
+// Estilos personalizados globales
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.add-btn {
+  margin-bottom: 16px;
+  --box-shadow: 0 4px 12px rgba(11, 116, 255, 0.2);
+}
+
+.submit-btn {
+  margin-top: 16px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  
+  p {
+    margin-top: 16px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  
+  ion-icon {
+    font-size: 64px;
+    color: var(--ion-color-medium);
+    margin-bottom: 16px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    margin-bottom: 16px;
+  }
+}
+
+.error-text {
+  font-size: 12px;
+  padding: 4px 16px;
+}
+
+// Badges personalizados
+ion-badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+// Cards
+ion-card {
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(12, 30, 70, 0.06);
+}
+
+ion-card-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+// Items
+ion-item {
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  --min-height: 56px;
+}
+
+// Inputs
+ion-input, ion-textarea, ion-select {
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+// Buttons
+ion-button {
+  --border-radius: 10px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+// Toolbar
+ion-toolbar {
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+}

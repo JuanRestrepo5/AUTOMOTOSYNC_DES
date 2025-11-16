@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gestión de Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchClientes($event)"
+      placeholder="🔍 Buscar por nombre o teléfono..."
+      animated
+    ></ion-searchbar>
+
+    <ion-button expand="block" (click)="goToNuevoCliente()" class="add-btn">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      Nuevo Cliente
+    </ion-button>
+
+    <ion-card *ngIf="!loading && clientesFiltrados.length > 0">
+      <ion-card-header>
+        <ion-card-title>Mis Clientes ({{ clientesFiltrados.length }})</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let cliente of clientesFiltrados" 
+                    (click)="goToDetalle(cliente)"
+                    button>
+            <ion-label>
+              <h2><strong>{{ cliente.nombre }}</strong></h2>
+              <p>📱 {{ cliente.telefono }}</p>
+              <p *ngIf="cliente.email">📧 {{ cliente.email }}</p>
+            </ion-label>
+            <ion-button fill="clear" slot="end" (click)="goToEditar(cliente, $event)">
+              <ion-icon name="create-outline" color="primary"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" slot="end" (click)="confirmarEliminar(cliente, $event)">
+              <ion-icon name="trash-outline" color="danger"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Cargando clientes...</p>
+    </div>
+
+    <ion-card *ngIf="!loading && clientesFiltrados.length === 0">
+      <ion-card-content class="empty-state">
+        <ion-icon name="people-outline" size="large"></ion-icon>
+        <p>No se encontraron clientes</p>
+        <ion-button (click)="goToNuevoCliente()">Agregar el primero</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
