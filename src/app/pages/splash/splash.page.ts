@@ -18,6 +18,8 @@ export class SplashPage implements OnInit {
 
   async ngOnInit() {
     console.log('🚀 Splash Screen iniciado');
+
+      //await this.authService.logoutSilencioso();
     
     // Esperar 2 segundos para mostrar la animación
     await this.delay(2000);

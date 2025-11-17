@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Firestore, doc, setDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { DatabaseService } from './database.service';
 import { Network } from '@capacitor/network';
 
@@ -12,7 +12,7 @@ export class SyncService {
 
   constructor(
     private db: DatabaseService,
-    private firestore: AngularFirestore
+    private firestore: Firestore 
   ) {
     this.initNetworkListener();
     this.initAutoSync();
@@ -70,15 +70,18 @@ export class SyncService {
     const { collection, action, docId, data } = change;
 
     try {
+      const ref = doc(this.firestore, `${collection}/${docId}`);
       switch (action) {
         case 'create':
-          await this.firestore.collection(collection).doc(docId).set(data);
+          await setDoc(ref, data);
           break;
+
         case 'update':
-          await this.firestore.collection(collection).doc(docId).update(data);
+          await updateDoc(ref, data);
           break;
+
         case 'delete':
-          await this.firestore.collection(collection).doc(docId).delete();
+          await deleteDoc(ref);
           break;
       }
     } catch (error) {

@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   showMenu = false;
   
   // Rutas donde NO se debe mostrar el menú
-  private readonly authRoutes = ['/splash', '/login', '/registro', '/recuperar'];
+  private readonly authRoutes = ['', '/', '/splash', '/login', '/registro', '/recuperar'];
   
   menuItems = [
     { title: 'Dashboard', url: '/dashboard', icon: 'home-outline' },
@@ -76,6 +76,19 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     await this.db.init();
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkMenu(event.urlAfterRedirects);
+      }
+    });
+
+  }
+
+  private checkMenu(url: string) {
+    // Mostrar menú solo si estamos en rutas autenticadas
+    const authRoutes = ['/dashboard', '/clientes', '/vehiculos', '/ordenes', '/inventario', '/configuracion'];
+    this.showMenu = authRoutes.some(r => url.startsWith(r));
   }
 
   private registerIcons() {

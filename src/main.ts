@@ -26,6 +26,7 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
+
     importProvidersFrom(
       IonicStorageModule.forRoot()
     ),

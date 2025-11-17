@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { 
-  Auth, 
+import {
+  Auth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-  onAuthStateChanged,
-  User
+  User,
+  authState
 } from '@angular/fire/auth';
+import { firstValueFrom } from 'rxjs';
+import { setPersistence, browserSessionPersistence } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,9 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<any> {
     try {
+      // ⚡ Persistencia temporal: la sesión se pierde al cerrar la app
+      await setPersistence(this.auth, browserSessionPersistence);
+
       const result = await signInWithEmailAndPassword(this.auth, email, password);
       this.router.navigate(['/dashboard']);
       return result;
@@ -44,22 +49,31 @@ export class AuthService {
 
   async logout(): Promise<void> {
     await signOut(this.auth);
-    this.router.navigate(['/login']);
+    await this.router.navigate(['/login']);
   }
 
+  // -----------------------
+  // Get current user (correcto para AngularFire)
+  // -----------------------
   async getCurrentUser(): Promise<User | null> {
-    return new Promise((resolve) => {
-      onAuthStateChanged(this.auth, (user) => {
-        resolve(user);
-      });
-    });
+    // authState(this.auth) es un Observable que respeta AngularFire
+    // firstValueFrom toma el primer valor y completa
+    return firstValueFrom(authState(this.auth));
   }
 
-  isAuthenticated() {
-    return new Promise((resolve) => {
-      onAuthStateChanged(this.auth, (user) => {
-        resolve(!!user);
-      });
-    });
+  // booleano si hace falta
+  async isAuthenticated(): Promise<boolean> {
+    const user = await this.getCurrentUser();
+    return !!user;
   }
+/*
+  async logoutSilencioso(): Promise<void> {
+    try {
+      await signOut(this.auth);
+    } catch (error) {
+      console.error('Error al cerrar sesión silenciosamente:', error);
+    }
+  }
+    */
+
 }
