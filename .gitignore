@@ -1,69 +1,47 @@
-# Specifies intentionally untracked files to ignore when using Git
-# http://git-scm.com/docs/gitignore
-
-*~
-*.sw[mnpcod]
-.tmp
-*.tmp
-*.tmp.*
-UserInterfaceState.xcuserstate
-$RECYCLE.BIN/
-
-*.log
-log.txt
-
-
-/.sourcemaps
-/.versions
-/coverage
-
-# Ionic
-/.ionic
-/www
-/platforms
-/plugins
-
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
-
 # Node
-/node_modules
+/node_modules/
 npm-debug.log
 yarn-error.log
+package-lock.json
+yarn.lock
 
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-project
-*.sublime-workspace
+# Angular / Ionic
+/.angular/
+/.angular-cache/
+/www
+/dist
+/out-tsc
+.sass-cache/
 
-# Visual Studio Code
+# Capacitor / Native
+/android/
+/ios/
+/capacitor.config.ts
+/capacitor.config.js
+/capacitor.config.json
+/capacitor.config.mjs
+/capacitor.settings.gradle
+/.gradle
+/.idea
+*.iml
+
+# IDEs
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
+.idea/
+*.sublime-project
+*.sublime-workspace
 
+# Logs
+*.log
+log.txt
 
-# Miscellaneous
-/.angular
-/.angular/cache
-.sass-cache/
-/.nx
-/.nx/cache
-/connect.lock
+# Coverage / Testing
 /coverage
-/libpeerconnection.log
-testem.log
-/typings
+/testem.log
 
 # System files
 .DS_Store

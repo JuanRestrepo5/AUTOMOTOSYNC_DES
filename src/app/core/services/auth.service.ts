@@ -10,7 +10,7 @@ import {
   authState
 } from '@angular/fire/auth';
 import { firstValueFrom } from 'rxjs';
-import { setPersistence, browserSessionPersistence } from '@angular/fire/auth';
+import { browserSessionPersistence, setPersistence } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,9 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<any> {
     try {
-      // ⚡ Persistencia temporal: la sesión se pierde al cerrar la app
+      //Persistencia temporal: la sesión se pierde al cerrar la app
       await setPersistence(this.auth, browserSessionPersistence);
+
 
       const result = await signInWithEmailAndPassword(this.auth, email, password);
       this.router.navigate(['/dashboard']);
