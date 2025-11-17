@@ -1,11 +1,19 @@
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: "TU_API_KEY_PROD",
-    authDomain: "automotosync.firebaseapp.com",
-    projectId: "automotosync",
-    storageBucket: "automotosync.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "TU_APP_ID_PROD"
+    apiKey: "AIzaSyA_4hCDVQ1PPqWklRbJySHGooeWHEMs_oE",
+    authDomain: "automotosync-c5b81.firebaseapp.com",
+    projectId: "automotosync-c5b81",
+    storageBucket: "automotosync-c5b81.firebasestorage.app",
+    messagingSenderId: "411367610410",
+    appId: "1:411367610410:web:4f8beb93ca2e4e0857cb53",
+    measurementId: "G-7SQ5JK2XVD"
   }
 };
+
+// Initialize Firebase
+const app = initializeApp(environment.firebaseConfig);
+const analytics = getAnalytics(app);

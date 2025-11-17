@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { 
@@ -38,7 +38,11 @@ import { DatabaseService } from './core/services/database.service';
   ],
 })
 export class AppComponent implements OnInit {
+  // IMPORTANTE: Inicializar en false para que el menú NO aparezca por defecto
   showMenu = false;
+  
+  // Rutas donde NO se debe mostrar el menú
+  private readonly authRoutes = ['/splash', '/login', '/registro', '/recuperar'];
   
   menuItems = [
     { title: 'Dashboard', url: '/dashboard', icon: 'home-outline' },
@@ -54,11 +58,24 @@ export class AppComponent implements OnInit {
     private router: Router
   ) {
     this.registerIcons();
+    
+    // Verificar ruta inicial INMEDIATAMENTE en el constructor
+    this.updateMenuVisibility(this.router.url);
+    
+    // Escuchar TODOS los eventos de navegación
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        // Ocultar menú ANTES de navegar a rutas de auth
+        this.updateMenuVisibility(event.url);
+      } else if (event instanceof NavigationEnd) {
+        // Actualizar después de completar navegación
+        this.updateMenuVisibility(event.url);
+      }
+    });
   }
 
   async ngOnInit() {
     await this.db.init();
-    this.setupMenuVisibility();
   }
 
   private registerIcons() {
@@ -72,21 +89,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private setupMenuVisibility() {
-    // Verificar ruta inicial
-    this.checkRoute(this.router.url);
-
-    // Escuchar cambios de ruta
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.checkRoute(event.url);
-      }
-    });
-  }
-
-  private checkRoute(url: string) {
-    const authRoutes = ['/splash', '/login', '/registro', '/recuperar'];
-    this.showMenu = !authRoutes.some(route => url.includes(route));
-    console.log('URL:', url, '| Mostrar menú:', this.showMenu);
+  private updateMenuVisibility(url: string) {
+    const isAuthRoute = this.authRoutes.some(route => url.startsWith(route));
+    this.showMenu = !isAuthRoute;
+    
+    // Debug
+    console.log(`📍 URL: ${url} | Es ruta auth: ${isAuthRoute} | Mostrar menú: ${this.showMenu}`);
   }
 }

@@ -11,10 +11,10 @@ import { environment } from './environments/environment';
 // Ionic Storage
 import { IonicStorageModule } from '@ionic/storage-angular';
 
-// Firebase
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+// Firebase - Importaciones actualizadas
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 if (environment.production) {
   enableProdMode();
@@ -29,6 +29,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       IonicStorageModule.forRoot()
     ),
+    // Firebase providers
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink  } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
   IonRefresher, IonRefresherContent, IonCard, IonCardHeader, IonCardTitle,
@@ -27,7 +27,7 @@ import { SyncService } from '../../core/services/sync.service';
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
+    RouterLink ,
     IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
     IonRefresher, IonRefresherContent, IonCard, IonCardHeader, IonCardTitle,
     IonCardContent, IonButton, IonIcon, IonList, IonItem, IonLabel,
