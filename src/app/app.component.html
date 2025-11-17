@@ -1,36 +1,23 @@
 <ion-app>
-  <ng-container *ngIf="showMenu; else noMenu">
-    <ion-split-pane [when]="showMenu" contentId="main-content">
-      <ion-menu contentId="main-content" type="overlay">
-        <ion-header>
-          <ion-toolbar color="primary">
-            <ion-title>AUTOMOTOSYNC</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content>
-          <ion-list>
-            <ion-menu-toggle auto-hide="false" *ngFor="let item of menuItems">
-              <ion-item 
-                [routerLink]="item.url" 
-                routerLinkActive="active-item"
-                routerDirection="root"
-                [detail]="false"
-                button
-              >
-                <ion-icon [name]="item.icon" slot="start"></ion-icon>
-                <ion-label>{{ item.title }}</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          </ion-list>
-        </ion-content>
-      </ion-menu>
-      <div class="ion-page" id="main-content">
-        <ion-router-outlet></ion-router-outlet>
-      </div>
-    </ion-split-pane>
-  </ng-container>
+  <!-- Menú lateral -->
+  <ion-menu side="start" menuId="main-menu" contentId="main-content">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>AUTOMOTOSYNC</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false" *ngFor="let item of menuItems">
+          <ion-item [routerLink]="item.url" [detail]="false">
+            <ion-icon slot="start" [name]="item.icon"></ion-icon>
+            <ion-label>{{ item.title }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 
-  <ng-template #noMenu>
-    <ion-router-outlet></ion-router-outlet>
-  </ng-template>
+  <!-- Contenido principal -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>
