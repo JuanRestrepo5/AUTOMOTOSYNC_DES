@@ -1,9 +1,12 @@
 
- Automotossync_des
 
-Esta es la aplicación principal para la plataforma de gestión y capacitación, desarrollada con el framework Ionic/Angular.
 
-Características Principales
+🚀  Automotossync_des
+
+
+ Esta es la aplicación principal para la plataforma de gestión y capacitación, desarrollada con el framework Ionic/Angular.
+
+🌟 Características Principales
 Basado en los archivos, las funcionalidades clave incluyen:
 
 Estructura de la aplicación (/src): Contiene el código fuente principal para la lógica y la interfaz de usuario.
@@ -20,8 +23,7 @@ Eslint/Tslint Configurado: Uso de reglas de linting para mantener la calidad del
 
 Build de Desarrollo Funcional: Se adjunta un .apk funcional para pruebas (app-debug.apk).
 
-
-Tecnologías Utilizadas
+🛠️ Tecnologías Utilizadas
 Este proyecto está construido principalmente con:
 
 Angular: Framework principal de desarrollo.
@@ -45,23 +47,33 @@ Node.js (Versión recomendada: v16.x o superior)
 npm (Generalmente viene con Node.js)
 
 Ionic CLI:
+
+Bash
+
 npm install -g @ionic/cli
-
 2. Clonar el Repositorio
-   git clone [https://aws.amazon.com/es/what-is/repo/](https://github.com/JuanRestrepo5/AUTOMOTOSYNC_DES.git)
+Bash
 
+git clone https://aws.amazon.com/es/what-is/repo/
+cd [Nombre del Repositorio]
 3. Instalar Dependencias
-   Esto instalará todas las dependencias listadas en package.json y package-lock.json)
+Bash
+
+npm install
+(Esto instalará todas las dependencias listadas en package.json y package-lock.json)
 
 4. Configuración de Entorno
 Asegúrate de que la configuración de Firebase y otros entornos esté actualizada en el archivo angular.json o en los archivos de entorno correspondientes dentro de /src.
 
- Ejecutar la Aplicación
- 
+▶️ Ejecutar la Aplicación
 Para ejecutar la aplicación en un navegador o emulador:
+
+Bash
+
 ionic serve
-
 Para generar una build de Android o iOS, sigue la documentación de Ionic:
-ionic cordova build android # o ios
 
+Bash
+
+ionic cordova build android # o ios
 
