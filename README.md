@@ -54,7 +54,7 @@ npm install -g @ionic/cli
 2. Clonar el Repositorio
 Bash
 
-git clone https://aws.amazon.com/es/what-is/repo/
+git clone [https://aws.amazon.com/es/what-is/repo/](https://github.com/JuanRestrepo5/AUTOMOTOSYNC_DES.git)
 cd [Nombre del Repositorio]
 3. Instalar Dependencias
 Bash
