@@ -76,9 +76,10 @@ npm install -g @capacitor/cli
 
 
 🚀 Instalación y Ejecución
+
 1️⃣ Clonar el repositorio
 
-git clone [<URL_DEL_REPOSITORIO>](https://github.com/JuanRestrepo5/AUTOMOTOSYNC_DES.git)
+git clone (https://github.com/JuanRestrepo5/AUTOMOTOSYNC_DES.git)
 cd AUTOMOTOSYNC_DES
 
 2️⃣ Instalar dependencias
