@@ -1,79 +1,135 @@
 
+📱 Proyecto Ionic + Angular + Capacitor
 
+Estado: Activo
+Última actualización: Se actualiza dashboard, menú y Firebase
 
-🚀  Automotossync_des
+📘 Descripción del Proyecto
 
+Este proyecto es una aplicación híbrida desarrollada con Ionic, Angular y Capacitor, orientada a funcionar tanto como aplicación móvil (APK incluido) como aplicación web.
+Incluye funcionalidades de autenticación, persistencia de sesión, configuración con Firebase y un dashboard interactivo.
 
- Esta es la aplicación principal para la plataforma de gestión y capacitación, desarrollada con el framework Ionic/Angular.
+El repositorio contiene todo el código fuente, configuración necesaria para el entorno de desarrollo, así como un APK funcional (app-debug.apk) listo para instalar.
 
-🌟 Características Principales
-Basado en los archivos, las funcionalidades clave incluyen:
+🧱 Tecnologías Utilizadas
+Frontend
 
-Estructura de la aplicación (/src): Contiene el código fuente principal para la lógica y la interfaz de usuario.
+Angular
 
-Módulos de Capacitación: Archivo de configuración (capacitacion.config.js) que sugiere la gestión de contenido de capacitación.
+Ionic Framework
 
-Integración y Configuración: Uso de Firebase (mencionado en el commit de angular.json).
+TypeScript
 
-Dashboard y Menús: Actualizaciones recientes en el dashboard y la estructura del menú principal.
+SCSS
 
-Persistencia de Sesión: Implementación de persistencia para la sesión y el pipeline de la aplicación (visto en .gitpipe).
+Mobile / Native
 
-Eslint/Tslint Configurado: Uso de reglas de linting para mantener la calidad del código.
+Capacitor
 
-Build de Desarrollo Funcional: Se adjunta un .apk funcional para pruebas (app-debug.apk).
+Android SDK
 
-🛠️ Tecnologías Utilizadas
-Este proyecto está construido principalmente con:
+Configuración y Calidad
 
-Angular: Framework principal de desarrollo.
+ESLint
 
-Ionic: Plataforma para el desarrollo de aplicaciones móviles híbridas (sugerido por ionic.config.json).
+EditorConfig
 
-TypeScript/JavaScript: Lenguajes de programación.
+Servicios
 
-Node.js/npm: Herramientas para la gestión de paquetes (visto en package.json).
+Firebase (Auth / Firestore / Storage según configuración)
 
-Firebase/Autenticación: (Sugerido por el commit de angular.json).
+📂 Estructura del Proyecto
 
-⚙️ Instalación y Configuración
-Sigue estos pasos para configurar el entorno de desarrollo local:
+.
+├── .vscode/                 # Configuración de VSCode
+├── src/                    # Código fuente principal de la app
+├── angular.json            # Configuración de Angular
+├── capacitor.config.ts     # Configuración de Capacitor
+├── ionic.config.json       # Configuración de Ionic
+├── tsconfig*.json          # Configuración TypeScript
+├── package.json            # Dependencias del proyecto
+├── app-debug.apk           # APK funcional para Android
+├── README.md               # Este archivo
+└── .gitignore              # Archivos ignorados por Git
 
-1. Prerrequisitos
-Asegúrate de tener instalados:
+🛠️ Requisitos Previos
 
-Node.js (Versión recomendada: v16.x o superior)
+Antes de iniciar, asegúrate de tener instalado:
 
-npm (Generalmente viene con Node.js)
+Node.js (v16+ recomendado)
 
-Ionic CLI:
-
-Bash
+Ionic CLI
 
 npm install -g @ionic/cli
-2. Clonar el Repositorio
-Bash
 
-git clone [https://aws.amazon.com/es/what-is/repo/](https://github.com/JuanRestrepo5/AUTOMOTOSYNC_DES.git)
-cd [Nombre del Repositorio]
-3. Instalar Dependencias
-Bash
+Angular CLI
 
+npm install -g @angular/cli
+
+Android Studio (si deseas compilar a APK)
+
+Java JDK 11+
+
+Capacitor CLI
+
+npm install -g @capacitor/cli
+
+
+🚀 Instalación y Ejecución
+1️⃣ Clonar el repositorio
+
+git clone [<URL_DEL_REPOSITORIO>](https://github.com/JuanRestrepo5/AUTOMOTOSYNC_DES.git)
+cd AUTOMOTOSYNC_DES
+
+2️⃣ Instalar dependencias
 npm install
-(Esto instalará todas las dependencias listadas en package.json y package-lock.json)
 
-4. Configuración de Entorno
-Asegúrate de que la configuración de Firebase y otros entornos esté actualizada en el archivo angular.json o en los archivos de entorno correspondientes dentro de /src.
-
-▶️ Ejecutar la Aplicación
-Para ejecutar la aplicación en un navegador o emulador:
-
-Bash
-
+3️⃣ Ejecutar en entorno de desarrollo
 ionic serve
-Para generar una build de Android o iOS, sigue la documentación de Ionic:
 
-Bash
+📱 Ejecutar en dispositivo móvil (Android)
+1. Sincronizar Capacitor
+   npx cap sync
+2. Abrir en Android Studio
+   npx cap open android
+3. Compilar APK desde Android Studio
 
-ionic cordova build android # o ios
+También puedes instalar directamente el APK incluido:
+app-debug.apk
 
+🔥 Configuración de Firebase
+
+El proyecto ya está configurado, pero si deseas cambiar credenciales:
+
+Ir a Firebase Console.
+
+Crear o seleccionar un proyecto.
+
+Descargar archivo de configuración:
+
+WEB: Variables en environment.ts.
+
+ANDROID: google-services.json → android/app/.
+
+Sincronizar nuevamente:
+npx cap sync android
+
+🧪 Testing
+
+Ejecutar pruebas unitarias:
+npm test
+
+Ejecutar pruebas de integración:
+ng test
+
+🛡️ Buenas Prácticas Implementadas
+
+Uso de ESLint para mantener estilo consistente.
+
+Estructura modular de Angular.
+
+Persistencia de sesión optimizada.
+
+Configuración de .editorconfig para homogeneidad.
+
+Manejo de rutas seguro y organizado.
