@@ -11,8 +11,7 @@ import { addIcons } from 'ionicons';
 import {
   constructOutline, carOutline, cashOutline, warningOutline,
   cloudDoneOutline, cloudOfflineOutline, peopleOutline,
-  documentTextOutline, cubeOutline, statsChartOutline
-} from 'ionicons/icons';
+  documentTextOutline, cubeOutline, statsChartOutline, alertCircleOutline } from 'ionicons/icons';
 
 import { ClientesService } from '../clientes/services/clientes.service';
 import { VehiculosService } from '../vehiculos/services/vehiculos.service';

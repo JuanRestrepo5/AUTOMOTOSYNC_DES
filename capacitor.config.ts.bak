@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.tuempresa.automotosync',
-  appName: 'AUTOMOTOSYNC',
+  appId: 'io.ionic.starter',
+  appName: 'automotosync',
   webDir: 'www'
 };
 

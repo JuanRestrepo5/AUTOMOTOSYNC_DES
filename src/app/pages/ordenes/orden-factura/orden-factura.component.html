@@ -1,0 +1,83 @@
+<!-- src/app/pages/ordenes/orden-factura/orden-factura.component.html -->
+<ion-card class="factura-card">
+  <ion-card-header>
+    <ion-card-title>Facturación</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- Botón para generar factura -->
+    <ion-button 
+      expand="block" 
+      color="success"
+      [disabled]="generandoFactura || !orden?.items?.length"
+      (click)="generarFactura()">
+      <ion-icon slot="start" name="document"></ion-icon>
+      {{ generandoFactura ? 'Generando...' : 'Generar Factura' }}
+      <ion-spinner *ngIf="generandoFactura" name="crescent" slot="end"></ion-spinner>
+    </ion-button>
+
+    <!-- Lista de facturas emitidas -->
+    <div *ngIf="facturasEmitidas.length > 0" class="facturas-list">
+      <h3>Facturas Emitidas</h3>
+      
+      <div *ngFor="let factura of facturasEmitidas" class="factura-item">
+        <div class="factura-header">
+          <div class="factura-numero">
+            <strong>{{ factura.numeroFactura }}</strong>
+            <ion-badge [color]="obtenerBadgeColor(factura.estado)">
+              {{ factura.estado | uppercase }}
+            </ion-badge>
+          </div>
+          <div class="factura-fecha">
+            {{ factura.fecha | date: 'short' }}
+          </div>
+        </div>
+
+        <div class="factura-detalles">
+          <div class="detalle-fila">
+            <span>Subtotal:</span>
+            <span>${{ factura.subtotal | number: '1.2-2' }}</span>
+          </div>
+          <div class="detalle-fila">
+            <span>Impuestos:</span>
+            <span>${{ factura.impuestos | number: '1.2-2' }}</span>
+          </div>
+          <div class="detalle-fila total">
+            <span>TOTAL:</span>
+            <span>${{ factura.total | number: '1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="factura-acciones">
+          <ion-button 
+            size="small" 
+            fill="outline"
+            (click)="descargarFacturaPDF(factura)">
+            <ion-icon slot="start" name="download"></ion-icon>
+            PDF
+          </ion-button>
+
+          <ion-button 
+            *ngIf="factura.estado !== 'pagada'"
+            size="small" 
+            fill="outline"
+            color="success"
+            (click)="cambiarEstadoPago(factura)">
+            Marcar Pagada
+          </ion-button>
+
+          <ion-text *ngIf="factura.metodoPago" color="medium" class="metodo-pago">
+            (Pago: {{ factura.metodoPago }})
+          </ion-text>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje cuando no hay facturas -->
+    <div *ngIf="facturasEmitidas.length === 0" class="sin-facturas">
+      <ion-text color="medium">
+        <p>No hay facturas emitidas para esta orden</p>
+      </ion-text>
+    </div>
+  </ion-card-content>
+</ion-card>

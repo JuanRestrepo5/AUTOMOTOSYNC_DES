@@ -1,0 +1,94 @@
+<!-- src/app/pages/ordenes/orden-repuestos/orden-repuestos.component.html -->
+<ion-card class="repuestos-card">
+  <ion-card-header>
+    <ion-card-title>Repuestos y Servicios</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- Formulario para agregar repuestos -->
+    <div class="formulario-repuesto">
+      <ion-item>
+        <ion-label position="floating">Repuesto</ion-label>
+        <ion-select 
+          [(ngModel)]="repuestoSeleccionado"
+          placeholder="Seleccionar repuesto">
+          <ion-select-option *ngFor="let repuesto of repuestos" [value]="repuesto.id">
+            {{ repuesto.nombre }} (Stock: {{ repuesto.stock }}) - ${{ repuesto.precio | number: '1.2-2' }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Cantidad</ion-label>
+        <ion-input 
+          type="number" 
+          [(ngModel)]="cantidad"
+          min="1"
+          [max]="obtenerRepuesto(repuestoSeleccionado)?.stock || 999">
+        </ion-input>
+      </ion-item>
+
+      <ion-button 
+        expand="block" 
+        (click)="agregarItem()"
+        color="primary">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Agregar Repuesto
+      </ion-button>
+    </div>
+
+    <!-- Lista de items agregados -->
+    <ion-list *ngIf="items.length > 0" class="items-list">
+      <ion-list-header class="header-items">
+        <ion-label>Items Agregados</ion-label>
+        <ion-label class="cantidad-header">Cant.</ion-label>
+        <ion-label class="precio-header">Precio</ion-label>
+        <ion-label class="subtotal-header">Subtotal</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let item of items" class="item-repuesto">
+        <div class="item-info">
+          <ion-label class="item-nombre">{{ item.descripcion }}</ion-label>
+          <ion-note>{{ item.cantidad }} x ${{ item.precioUnitario | number: '1.2-2' }}</ion-note>
+        </div>
+        <ion-label class="item-subtotal" slot="end">
+          ${{ item.subtotal | number: '1.2-2' }}
+        </ion-label>
+        <ion-button 
+          fill="clear" 
+          color="danger" 
+          slot="end"
+          (click)="eliminarItem(item.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <!-- Resumen de totales -->
+    <div class="resumen-totales">
+      <div class="fila-total">
+        <span>Subtotal Repuestos:</span>
+        <span class="valor">${{ subtotalRepuestos | number: '1.2-2' }}</span>
+      </div>
+      <div class="fila-total">
+        <span>Mano de Obra:</span>
+        <span class="valor">${{ manoObra | number: '1.2-2' }}</span>
+      </div>
+      <div class="fila-total">
+        <span>Impuestos:</span>
+        <span class="valor">${{ impuestos | number: '1.2-2' }}</span>
+      </div>
+      <div class="fila-total total">
+        <span>TOTAL:</span>
+        <span class="valor">${{ total | number: '1.2-2' }}</span>
+      </div>
+    </div>
+
+    <!-- Mensajes de validación -->
+    <div *ngIf="items.length === 0" class="sin-items">
+      <ion-text color="medium">
+        <p>No hay repuestos agregados aún</p>
+      </ion-text>
+    </div>
+  </ion-card-content>
+</ion-card>

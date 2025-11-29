@@ -1,27 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { DatabaseService } from './core/services/database.service';
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import {
+  IonApp, IonMenu, IonHeader, IonToolbar,
+  IonTitle, IonContent, IonList, IonMenuToggle, IonItem,
+  IonIcon, IonLabel, IonRouterOutlet
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  homeOutline, peopleOutline, carOutline, documentTextOutline,
+  cubeOutline, settingsOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
-    IonicModule
+    IonApp,
+    IonMenu,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonMenuToggle,
+    IonItem,
+    IonIcon,
+    IonLabel,
+    IonRouterOutlet
   ]
 })
-export class AppComponent implements OnInit {
-
+export class AppComponent {
   showMenu = false;
 
-  // Rutas donde NO se muestra el menú
-  private readonly authRoutes = ['', '/', '/splash', '/login', '/registro', '/recuperar'];
+  // Lista de rutas donde el menú NO debe mostrarse
+  private routesWithoutMenu = ['/', '/splash', '/login', '/registro', '/recuperar'];
 
   menuItems = [
     { title: 'Dashboard', url: '/dashboard', icon: 'home-outline' },
@@ -36,25 +55,33 @@ export class AppComponent implements OnInit {
     private db: DatabaseService,
     private router: Router
   ) {
-    // Verificar ruta inicial
-    this.updateMenuVisibility(this.router.url);
+    this.registerIcons();
+    this.db.init();
 
-    // Escuchar eventos de navegación
+    // Escuchar los eventos de navegación para decidir si se muestra el menú
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart || event instanceof NavigationEnd) {
-        this.updateMenuVisibility(event instanceof NavigationStart ? event.url : (event as NavigationEnd).urlAfterRedirects);
+      if (event instanceof NavigationEnd) {
+        // Comprueba si la URL actual está en la lista de rutas sin menú
+        const shouldHideMenu = this.routesWithoutMenu.includes(event.urlAfterRedirects);
+        this.showMenu = !shouldHideMenu;
+        console.log('URL:', event.urlAfterRedirects, 'showMenu:', this.showMenu);
       }
     });
+
+    // Mostrar menú al cargar si está en una ruta permitida
+    const currentUrl = this.router.url;
+    const shouldHideMenu = this.routesWithoutMenu.includes(currentUrl);
+    this.showMenu = !shouldHideMenu;
   }
 
-  async ngOnInit() {
-    await this.db.init();
-  }
-
-  private updateMenuVisibility(url: string) {
-    const isAuthRoute = this.authRoutes.includes(url);
-    this.showMenu = !isAuthRoute;
-
-    console.log(`📍 URL: ${url} | Es ruta auth: ${isAuthRoute} | Mostrar menú: ${this.showMenu}`);
+  private registerIcons() {
+    addIcons({
+      'home-outline': homeOutline,
+      'people-outline': peopleOutline,
+      'car-outline': carOutline,
+      'document-text-outline': documentTextOutline,
+      'cube-outline': cubeOutline,
+      'settings-outline': settingsOutline
+    });
   }
 }

@@ -108,7 +108,7 @@ export class OrdenFormPage implements OnInit {
       const orden = await this.ordenesService.getOrdenById(this.ordenId!);
       this.ordenForm.patchValue({
         ...orden,
-        fechaServicio: new Date(orden.fechaServicio).toISOString()
+        fechaServicio: orden.fechaServicio ? new Date(orden.fechaServicio).toISOString() : new Date().toISOString()
       });
       
       this.filtrarVehiculosPorCliente(orden.clienteId);

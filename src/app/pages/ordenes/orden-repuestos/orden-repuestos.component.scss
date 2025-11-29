@@ -1,0 +1,138 @@
+/* src/app/pages/ordenes/orden-repuestos/orden-repuestos.component.scss */
+
+.repuestos-card {
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-repuesto {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ion-border-color);
+  margin-bottom: 16px;
+
+  ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin-bottom: 12px;
+  }
+
+  ion-button {
+    margin-top: 8px;
+  }
+}
+
+.items-list {
+  margin: 16px -16px;
+
+  .header-items {
+    background: var(--ion-color-light);
+    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: 1fr 60px 100px 100px;
+    gap: 8px;
+    align-items: center;
+
+    ion-label:not(:first-child) {
+      text-align: right;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+  }
+
+  .item-repuesto {
+    display: grid;
+    grid-template-columns: 1fr 60px 100px 100px 50px;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--ion-border-color);
+
+    .item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .item-nombre {
+        font-weight: 500;
+        color: var(--ion-color-dark);
+      }
+
+      ion-note {
+        font-size: 0.85em;
+      }
+    }
+
+    .item-subtotal {
+      text-align: right;
+      font-weight: 600;
+      color: var(--ion-color-primary);
+    }
+
+    ion-button {
+      height: 32px;
+      width: 32px;
+    }
+  }
+}
+
+.resumen-totales {
+  background: var(--ion-color-light);
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+
+  .fila-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.95em;
+
+    .valor {
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--ion-border-color);
+    }
+
+    &.total {
+      background: var(--ion-color-primary);
+      color: white;
+      padding: 12px;
+      margin: 0 -16px -16px -16px;
+      border-radius: 0 0 8px 8px;
+      font-size: 1.1em;
+      font-weight: 700;
+
+      .valor {
+        color: white;
+      }
+    }
+  }
+}
+
+.sin-items {
+  text-align: center;
+  padding: 24px 0;
+
+  p {
+    margin: 0;
+    color: var(--ion-color-medium);
+  }
+}
+
+@media (max-width: 480px) {
+  .items-list {
+    .header-items,
+    .item-repuesto {
+      grid-template-columns: 1fr 50px;
+      
+      .item-subtotal,
+      &:nth-child(3),
+      &:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+}

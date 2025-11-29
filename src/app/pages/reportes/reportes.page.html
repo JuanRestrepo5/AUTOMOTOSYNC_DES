@@ -1,0 +1,282 @@
+<!-- src/app/pages/reportes/reportes.page.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reportes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cargarEstadisticas()" [disabled]="cargando">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Reportes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Segmentación de vistas -->
+  <ion-segment 
+    [value]="segmentSeleccionado"
+    (ionChange)="segmentChanged($event)"
+    color="primary">
+    <ion-segment-button value="dashboard">
+      Dashboard
+    </ion-segment-button>
+    <ion-segment-button value="graficas">
+      Gráficas
+    </ion-segment-button>
+    <ion-segment-button value="exportar">
+      Exportar
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- DASHBOARD -->
+  <div *ngIf="segmentSeleccionado === 'dashboard'" class="dashboard-content">
+    <ion-spinner *ngIf="cargando" name="crescent" class="spinner-centered"></ion-spinner>
+
+    <div *ngIf="!cargando && estadisticas" class="estadisticas-grid">
+      <!-- Tarjetas de estadísticas -->
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-value">{{ estadisticas.totalOrdenes }}</div>
+          <div class="stat-label">Total Órdenes</div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card activa">
+        <ion-card-content>
+          <div class="stat-value">{{ estadisticas.ordenesActivas }}</div>
+          <div class="stat-label">Órdenes Activas</div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-value">{{ estadisticas.ordenesFinalizadas }}</div>
+          <div class="stat-label">Finalizadas</div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card ingresos">
+        <ion-card-content>
+          <div class="stat-value">${{ estadisticas.ingresoTotal | number: '1.2-2' }}</div>
+          <div class="stat-label">Ingresos Totales</div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-value">{{ estadisticas.totalFacturas }}</div>
+          <div class="stat-label">Facturas Emitidas</div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card pagadas">
+        <ion-card-content>
+          <div class="stat-value">{{ estadisticas.facturasPagadas }}</div>
+          <div class="stat-label">Facturas Pagadas</div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Sección de inventario -->
+      <ion-card class="full-width">
+        <ion-card-header>
+          <ion-card-title>Estado del Inventario</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <div class="inv-stat">
+                  <div class="inv-value">{{ estadisticas.totalRepuestos }}</div>
+                  <div class="inv-label">Total Repuestos</div>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div class="inv-stat warning">
+                  <div class="inv-value">{{ estadisticas.repuestoBajoStock }}</div>
+                  <div class="inv-label">Bajo Stock</div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- GRÁFICAS -->
+  <div *ngIf="segmentSeleccionado === 'graficas'" class="graficas-content">
+    <ion-spinner *ngIf="cargando" name="crescent" class="spinner-centered"></ion-spinner>
+
+    <!-- Órdenes por mes -->
+    <ion-card *ngIf="ordenesxMes">
+      <ion-card-header>
+        <ion-card-title>Órdenes por Mes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chart-placeholder">
+          <ion-text color="medium">
+            <p>Gráfica de órdenes por mes (requiere librería de gráficas)</p>
+          </ion-text>
+          <div class="data-preview">
+            <div *ngFor="let mes of ordenesxMes.labels; let i = index" class="bar">
+              <div class="label">{{ mes }}</div>
+              <div class="value">{{ ordenesxMes.data[i] }}</div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Ingresos por mes -->
+    <ion-card *ngIf="ingresosxMes">
+      <ion-card-header>
+        <ion-card-title>Ingresos por Mes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chart-placeholder">
+          <ion-text color="medium">
+            <p>Gráfica de ingresos mensuales</p>
+          </ion-text>
+          <div class="data-preview ingresos-preview">
+            <div *ngFor="let mes of ingresosxMes.labels; let i = index" class="bar">
+              <div class="label">{{ mes }}</div>
+              <div class="value">${{ ingresosxMes.data[i] | number: '1.2-2' }}</div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Órdenes por estado -->
+    <ion-card *ngIf="ordenesxEstado">
+      <ion-card-header>
+        <ion-card-title>Distribución de Órdenes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let estado of ordenesxEstado.labels; let i = index">
+            <ion-label>{{ estado }}</ion-label>
+            <div slot="end" class="estado-badge" [style.background]="ordenesxEstado.colors[i]">
+              {{ ordenesxEstado.data[i] }}
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Repuestos más vendidos -->
+    <ion-card *ngIf="repuestosMasVendidos.length > 0">
+      <ion-card-header>
+        <ion-card-title>Repuestos Más Vendidos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let item of repuestosMasVendidos">
+            <ion-label>{{ item.repuestoId }}</ion-label>
+            <ion-badge slot="end" color="primary">{{ item.cantidad }}</ion-badge>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Clientes frecuentes -->
+    <ion-card *ngIf="clientesFrecuentes.length > 0">
+      <ion-card-header>
+        <ion-card-title>Clientes Más Frecuentes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let cliente of clientesFrecuentes">
+            <ion-label>{{ cliente.clienteId }}</ion-label>
+            <ion-badge slot="end" color="success">{{ cliente.totalOrdenes }}</ion-badge>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- EXPORTAR -->
+  <div *ngIf="segmentSeleccionado === 'exportar'" class="exportar-content">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Descargar Reportes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Exporta datos en formato CSV para análisis en Excel o Google Sheets</p>
+
+        <ion-button 
+          expand="block"
+          color="primary"
+          [disabled]="cargando"
+          (click)="exportarOrdenesCSV()">
+          <ion-icon slot="start" name="download"></ion-icon>
+          Descargar Órdenes (CSV)
+          <ion-spinner *ngIf="cargando" name="crescent" slot="end"></ion-spinner>
+        </ion-button>
+
+        <ion-button 
+          expand="block"
+          color="success"
+          [disabled]="cargando"
+          (click)="exportarFacturasCSV()">
+          <ion-icon slot="start" name="download"></ion-icon>
+          Descargar Facturas (CSV)
+          <ion-spinner *ngIf="cargando" name="crescent" slot="end"></ion-spinner>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información de inventario -->
+    <ion-card *ngIf="reporteInventario">
+      <ion-card-header>
+        <ion-card-title>Reporte de Inventario</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label>Total Repuestos</ion-label>
+            <ion-badge slot="end">{{ reporteInventario.totalRepuestos }}</ion-badge>
+          </ion-item>
+          <ion-item>
+            <ion-label>Repuestos Activos</ion-label>
+            <ion-badge slot="end" color="success">{{ reporteInventario.repuestosActivos }}</ion-badge>
+          </ion-item>
+          <ion-item>
+            <ion-label>Sin Stock</ion-label>
+            <ion-badge slot="end" color="danger">{{ reporteInventario.repuestosSinStock }}</ion-badge>
+          </ion-item>
+          <ion-item>
+            <ion-label>Bajo Stock</ion-label>
+            <ion-badge slot="end" color="warning">{{ reporteInventario.repuestosBajoStock }}</ion-badge>
+          </ion-item>
+          <ion-item>
+            <ion-label>Valor Total Inventario</ion-label>
+            <ion-badge slot="end" color="primary">${{ reporteInventario.valorTotalInventario | number: '1.2-2' }}</ion-badge>
+          </ion-item>
+        </ion-list>
+
+        <!-- Repuestos con bajo stock -->
+        <div *ngIf="reporteInventario.detalleRepuestosBajoStock.length > 0" class="detalle-bajo-stock">
+          <h4>Repuestos que Necesitan Reorden</h4>
+          <ion-list>
+            <ion-item *ngFor="let rep of reporteInventario.detalleRepuestosBajoStock">
+              <ion-label>
+                <h3>{{ rep.nombre }}</h3>
+                <p>Stock: {{ rep.stock }} / Mínimo: {{ rep.stockMinimo }}</p>
+              </ion-label>
+              <ion-badge slot="end" color="danger">Falta: {{ rep.falta }}</ion-badge>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

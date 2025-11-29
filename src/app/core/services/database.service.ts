@@ -203,6 +203,65 @@ export class DatabaseService {
     await this.updateRepuesto(id, { activo: false });
   }
 
+  // ============ FACTURAS ============
+  async insertFactura(factura: any): Promise<string> {
+    const id = this.generateId();
+    await this._storage?.set(`factura_${id}`, { ...factura, id });
+    
+    const facturas = await this.getFacturas();
+    facturas.push({ ...factura, id });
+    await this._storage?.set('facturas_index', facturas);
+    
+    return id;
+  }
+
+  async getFacturas(): Promise<any[]> {
+    const facturas = await this._storage?.get('facturas_index');
+    return facturas?.filter((f: any) => f.activo) || [];
+  }
+
+  async getFacturaById(id: string): Promise<any> {
+    return await this._storage?.get(`factura_${id}`);
+  }
+
+  async updateFactura(id: string, data: any): Promise<void> {
+    const factura = await this.getFacturaById(id);
+    await this._storage?.set(`factura_${id}`, { ...factura, ...data });
+    
+    const facturas = await this.getFacturas();
+    const index = facturas.findIndex((f: any) => f.id === id);
+    if (index >= 0) {
+      facturas[index] = { ...facturas[index], ...data };
+      await this._storage?.set('facturas_index', facturas);
+    }
+  }
+
+  async deleteFactura(id: string): Promise<void> {
+    await this.updateFactura(id, { activo: false });
+  }
+
+  // ============ MOVIMIENTOS DE INVENTARIO ============
+  async insertMovimiento(movimiento: any): Promise<string> {
+    const id = this.generateId();
+    await this._storage?.set(`movimiento_${id}`, { ...movimiento, id });
+    
+    const movimientos = await this.getMovimientos();
+    movimientos.push({ ...movimiento, id });
+    await this._storage?.set('movimientos_index', movimientos);
+    
+    return id;
+  }
+
+  async getMovimientos(): Promise<any[]> {
+    const movimientos = await this._storage?.get('movimientos_index');
+    return movimientos || [];
+  }
+
+  async getMovimientosxRepuesto(repuestoId: string): Promise<any[]> {
+    const movimientos = await this.getMovimientos();
+    return movimientos.filter((m: any) => m.repuestoId === repuestoId);
+  }
+
   // ============ SYNC QUEUE ============
   async insertSyncQueue(item: any): Promise<void> {
     const id = this.generateId();
@@ -229,4 +288,5 @@ export class DatabaseService {
   private generateId(): string {
     return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
+  
 }
