@@ -9,7 +9,11 @@
 
 <ion-content>
   <div class="container">
+    <!-- DATOS BASICOS DE LA ORDEN-->
     <ion-card>
+      <ion-card-header>
+        <ion-card-title>Información de la Orden</ion-card-title>
+      </ion-card-header>
       <ion-card-content>
         <form [formGroup]="ordenForm" (ngSubmit)="onSubmit()">
           
@@ -51,6 +55,15 @@
           </ion-text>
 
           <ion-item>
+            <ion-label position="stacked">Estado</ion-label>
+            <ion-select formControlName="estado">
+              <ion-select-option value="pendiente">Pendiente</ion-select-option>
+              <ion-select-option value="en_Proceso">En Proceso</ion-select-option>
+              <ion-select-option value="finalizado">Finalizado</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
             <ion-label position="stacked">Fecha del servicio *</ion-label>
             <ion-datetime 
               formControlName="fechaServicio"
@@ -64,6 +77,24 @@
               type="text" 
               formControlName="mecanicoAsignado"
               placeholder="Nombre del mecánico (opcional)"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Mano de Obra</ion-label>
+            <ion-input 
+              type="number" 
+              formControlName="manoObra"
+              placeholder="0"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Impuestos</ion-label>
+            <ion-input 
+              type="number" 
+              formControlName="impuestos"
+              placeholder="0"
             ></ion-input>
           </ion-item>
 
@@ -100,5 +131,24 @@
         </form>
       </ion-card-content>
     </ion-card>
+
+    <!-- COMPONENTE DE REPUESTOS (solo en modo edición) -->
+     <app-orden-repuestos  
+       *ngIf="isEditMode && ordenId" 
+       [ordenId]="ordenId"
+       [items]="ordenActual?.items || []"
+       [manoObra]="ordenActual?.manoObra || 0"
+        [impuestos]="ordenActual?.impuestos || 0"
+      ></app-orden-repuestos>
+
+      <!-- COMPONENTE DE FACTURACIÓN (solo en modo edición) -->
+
+      <app-orden-factura 
+      *ngIf="isEditMode && ordenId"
+      [ordenId]="ordenId"
+      [orden]="ordenActual"
+    ></app-orden-factura>
+        
+
   </div>
 </ion-content>

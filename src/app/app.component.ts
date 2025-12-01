@@ -11,7 +11,7 @@ import {
 import { addIcons } from 'ionicons';
 import {
   homeOutline, peopleOutline, carOutline, documentTextOutline,
-  cubeOutline, settingsOutline
+  cubeOutline, settingsOutline,statsChartOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -48,6 +48,7 @@ export class AppComponent {
     { title: 'Vehículos', url: '/vehiculos', icon: 'car-outline' },
     { title: 'Órdenes', url: '/ordenes', icon: 'document-text-outline' },
     { title: 'Inventario', url: '/inventario', icon: 'cube-outline' },
+    { title: 'Reportes', url: '/reportes', icon: 'stats-chart-outline' },
     { title: 'Configuración', url: '/configuracion', icon: 'settings-outline' }
   ];
 
@@ -81,7 +82,8 @@ export class AppComponent {
       'car-outline': carOutline,
       'document-text-outline': documentTextOutline,
       'cube-outline': cubeOutline,
-      'settings-outline': settingsOutline
+      'settings-outline': settingsOutline,
+      'stats-chart-outline': statsChartOutline
     });
   }
 }

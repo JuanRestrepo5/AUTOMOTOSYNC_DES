@@ -9,7 +9,7 @@
     <ion-button 
       expand="block" 
       color="success"
-      [disabled]="generandoFactura || !orden?.items?.length"
+      [disabled]="generandoFactura || !orden || !orden.items || orden.items.length === 0"
       (click)="generarFactura()">
       <ion-icon slot="start" name="document"></ion-icon>
       {{ generandoFactura ? 'Generando...' : 'Generar Factura' }}

@@ -1,27 +1,29 @@
 // src/app/core/services/reportes.service.ts
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DatabaseService } from './database.service';
 import { OrdersService } from './orders.service';
 import { InventarioService } from './inventario.service';
+import { FacturaService } from './factura.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportesService {
 
-  private facturaService: any;
+  //private facturaService: any;
 
   constructor(
     private db: DatabaseService,
     private ordersService: OrdersService,
     private inventarioService: InventarioService,
-    private injector: Injector
+    private facturaService: FacturaService,
   ) {
+    /*
     // Lazy load FacturaService para evitar dependencias circulares
     setTimeout(() => {
       const FacturaServiceClass = require('./factura.service').FacturaService;
       this.facturaService = this.injector.get(FacturaServiceClass);
-    }, 0);
+    }, 0);*/
   }
 
   /**
@@ -65,7 +67,7 @@ export class ReportesService {
    */
   async obtenerOrdenesxMes(anoActual: number) {
     const ordenes = await this.ordersService.getOrders();
-    const meses = Array(12).fill(0);
+    //const meses = Array(12).fill(0);
     const ordenesxMes = Array(12).fill(0);
 
     ordenes.forEach((o: any) => {

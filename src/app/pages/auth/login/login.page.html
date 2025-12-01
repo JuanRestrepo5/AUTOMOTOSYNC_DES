@@ -1,13 +1,13 @@
 <ion-content class="auth-content">
   <div class="auth-container">
-    <div class="logo-section">
-      <div class="logo">A</div>
-      <h1>AUTOMOTOSYNC</h1>
-      <p>Gestión de talleres mecánicos</p>
-    </div>
 
     <ion-card class="auth-card">
       <ion-card-content>
+        <div class="logo-section">
+          <div class="logo">A</div>
+          <h1>AUTOMOTOSYNC</h1>
+          <p>Gestión de talleres mecánicos</p>
+        </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           
           <ion-item lines="none" class="input-item">
@@ -47,7 +47,6 @@
           <div class="remember-forgot">
             <ion-checkbox formControlName="rememberMe"></ion-checkbox>
             <ion-label>Recordar sesión</ion-label>
-            <a (click)="goToRecuperar()" class="forgot-link">¿Olvidó su contraseña?</a>
           </div>
 
           <ion-button 
@@ -66,6 +65,7 @@
           >
             Crear cuenta
           </ion-button>
+          <a (click)="goToRecuperar()" class="forgot-link">¿Olvidó su contraseña?</a>
 
         </form>
       </ion-card-content>

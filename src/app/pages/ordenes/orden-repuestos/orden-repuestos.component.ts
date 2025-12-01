@@ -6,7 +6,7 @@ import {
   IonCard, IonCardContent, IonCardHeader, IonCardTitle,
   IonItem, IonLabel, IonSelect, IonSelectOption, IonInput,
   IonButton, IonIcon, IonList, IonListHeader, IonNote,
-  IonBadge, IonAlert, AlertController, ToastController
+  IonBadge, IonText, AlertController, ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { trash, add } from 'ionicons/icons';
@@ -27,7 +27,7 @@ import { DatabaseService } from '../../../core/services/database.service';
     IonCard, IonCardContent, IonCardHeader, IonCardTitle,
     IonItem, IonLabel, IonSelect, IonSelectOption, IonInput,
     IonButton, IonIcon, IonList, IonListHeader, IonNote,
-    IonBadge
+    IonBadge, IonText
   ]
 })
 export class OrdenRepuestosComponent implements OnInit {

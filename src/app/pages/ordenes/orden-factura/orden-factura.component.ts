@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonCard, IonCardContent, IonCardHeader, IonCardTitle,
-  IonButton, IonIcon, IonSpinner, IonText,
+  IonButton, IonIcon, IonSpinner, IonText, IonBadge,
   ToastController, AlertController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -23,12 +23,12 @@ import { Factura } from '../../../core/models/factura.model';
   imports: [
     CommonModule,
     IonCard, IonCardContent, IonCardHeader, IonCardTitle,
-    IonButton, IonIcon, IonSpinner, IonText
+    IonButton, IonIcon, IonSpinner, IonText, IonBadge
   ]
 })
 export class OrdenFacturaComponent implements OnInit {
   @Input() ordenId!: string;
-  @Input() orden!: Orden;
+  @Input() orden!: Orden | undefined;
 
   facturasEmitidas: Factura[] = [];
   generandoFactura = false;
@@ -82,6 +82,10 @@ export class OrdenFacturaComponent implements OnInit {
   }
 
   async descargarFacturaPDF(factura: Factura) {
+    if (!this.orden) {
+      await this.mostrarError('Orden no disponible');
+      return;
+    }
     try {
       const cliente = await this.db.getClienteById(factura.clienteId);
       await this.facturaService.descargarFacturaPDF(factura, cliente, this.orden);

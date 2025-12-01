@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-  IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonSelect,
-  IonSelectOption, IonTextarea, IonButton, IonSpinner, IonText,
-  IonDatetime, ToastController
+  IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, 
+  IonInput, IonSelect, IonSelectOption, IonTextarea, IonButton, IonSpinner, 
+  IonText, IonDatetime, ToastController
 } from '@ionic/angular/standalone';
 
 import { OrdenesService } from '../services/ordenes.service';
@@ -15,6 +15,9 @@ import { VehiculosService } from '../../vehiculos/services/vehiculos.service';
 import { Orden } from '../../../core/models/orden.model';
 import { Cliente } from '../../../core/models/cliente.model';
 import { Vehiculo } from '../../../core/models/vehiculo.model';
+
+import { OrdenRepuestosComponent } from '../orden-repuestos/orden-repuestos.component';
+import { OrdenFacturaComponent } from '../orden-factura/orden-factura.component';
 
 @Component({
   selector: 'app-orden-form',
@@ -25,8 +28,12 @@ import { Vehiculo } from '../../../core/models/vehiculo.model';
     CommonModule,
     ReactiveFormsModule,
     IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
-    IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonSelect,
-    IonSelectOption, IonTextarea, IonButton, IonSpinner, IonText, IonDatetime
+    IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, 
+    IonInput, IonSelect, IonSelectOption, IonTextarea, IonButton, IonSpinner, 
+    IonText, IonDatetime,
+
+    OrdenRepuestosComponent,
+    OrdenFacturaComponent
   ]
 })
 export class OrdenFormPage implements OnInit {
@@ -37,6 +44,7 @@ export class OrdenFormPage implements OnInit {
   clientes: Cliente[] = [];
   vehiculos: Vehiculo[] = [];
   vehiculosFiltrados: Vehiculo[] = [];
+  ordenActual?: Orden;
 
   constructor(
     private fb: FormBuilder,
@@ -51,8 +59,11 @@ export class OrdenFormPage implements OnInit {
       clienteId: ['', [Validators.required]],
       vehiculoId: ['', [Validators.required]],
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
+      estado: ['pendiente', [Validators.required]],
       fechaServicio: [new Date().toISOString(), [Validators.required]],
       mecanicoAsignado: [''],
+      manoObra: [0],
+      impuestos: [0],
       observaciones: ['']
     });
   }
@@ -106,6 +117,7 @@ export class OrdenFormPage implements OnInit {
   async loadOrden() {
     try {
       const orden = await this.ordenesService.getOrdenById(this.ordenId!);
+      this.ordenActual = orden;
       this.ordenForm.patchValue({
         ...orden,
         fechaServicio: orden.fechaServicio ? new Date(orden.fechaServicio).toISOString() : new Date().toISOString()
@@ -135,12 +147,13 @@ export class OrdenFormPage implements OnInit {
       if (this.isEditMode && this.ordenId) {
         await this.ordenesService.updateOrden(this.ordenId, ordenData);
         await this.showToast('Orden actualizada exitosamente', 'success');
+        await this.loadOrden(); // Recargar datos actualizados
       } else {
-        await this.ordenesService.createOrden(ordenData);
+        const nuevoId = await this.ordenesService.createOrden(ordenData);
         await this.showToast('Orden creada exitosamente', 'success');
-      }
 
-      this.router.navigate(['/ordenes']);
+        this.router.navigate(['/ordenes', 'editar', nuevoId]);
+      }
     } catch (error) {
       console.error('Error guardando orden:', error);
       await this.showToast('Error al guardar la orden', 'danger');
