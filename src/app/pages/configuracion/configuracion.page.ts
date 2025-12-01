@@ -5,7 +5,7 @@ import {
   IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel,
   IonInput, IonList, IonButton, IonIcon, IonText, IonCheckbox,
-  AlertController, ToastController
+  AlertController, ToastController, LoadingController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
@@ -14,6 +14,7 @@ import {
 
 import { AuthService } from '../../core/services/auth.service';
 import { SyncService } from '../../core/services/sync.service';
+import { FirebaseSyncService } from '../../core/services/firebase-sync.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -39,9 +40,11 @@ export class ConfiguracionPage implements OnInit {
   constructor(
     private authService: AuthService,
     private syncService: SyncService,
+    private firebaseSyncService: FirebaseSyncService,
     private router: Router,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController, 
+    private loadingController: LoadingController
   ) {
     this.registerIcons();
   }
@@ -85,7 +88,24 @@ async loadUserData() {
 
 
   async sincronizarManual() {
+    const loading = await this.loadingController.create({
+      message: '🔄 Sincronizando datos desde Firebase...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+
     try {
+      // Primero sincronizar desde Firebase a local
+      await this.firebaseSyncService.syncAllFromFirebase();
+
+      // Luego sincronizar cambios locales pendientes a Firebase
+      await this.syncService.syncAll();
+      
+      this.ultimaSync = 'Justo ahora';
+      await loading.dismiss();
+      await this.showToast('✓ Sincronización completada Datos actualizados', 'success');
+      /*
       const toast = await this.toastController.create({
         message: '🔄 Sincronizando datos...',
         duration: 1500,
@@ -95,9 +115,10 @@ async loadUserData() {
 
       await this.syncService.syncAll();
       
-      await this.showToast('✓ Sincronización completada', 'success');
+      await this.showToast('✓ Sincronización completada', 'success');*/
     } catch (error) {
       console.error('Error sincronizando:', error);
+      await loading.dismiss();
       await this.showToast('Error en la sincronización', 'danger');
     }
   }

@@ -11,13 +11,15 @@ import { addIcons } from 'ionicons';
 import {
   constructOutline, carOutline, cashOutline, warningOutline,
   cloudDoneOutline, cloudOfflineOutline, peopleOutline,
-  documentTextOutline, cubeOutline, statsChartOutline, alertCircleOutline } from 'ionicons/icons';
+  documentTextOutline, cubeOutline, statsChartOutline, alertCircleOutline 
+} from 'ionicons/icons';
 
 import { ClientesService } from '../clientes/services/clientes.service';
 import { VehiculosService } from '../vehiculos/services/vehiculos.service';
 import { OrdenesService } from '../ordenes/services/ordenes.service';
 import { InventarioService } from '../inventario/services/inventario.service';
 import { SyncService } from '../../core/services/sync.service';
+import { FirebaseSyncService } from '../../core/services/firebase-sync.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -54,6 +56,7 @@ export class DashboardPage implements OnInit {
     private ordenesService: OrdenesService,
     private inventarioService: InventarioService,
     private syncService: SyncService,
+    private firebaseSyncService: FirebaseSyncService,
     private router: Router
   ) {
     this.registerIcons();
@@ -71,6 +74,7 @@ export class DashboardPage implements OnInit {
       'document-text-outline': documentTextOutline,
       'cube-outline': cubeOutline,
       'stats-chart-outline': statsChartOutline
+      ,'alert-circle-outline': alertCircleOutline
     });
   }
 
@@ -79,6 +83,14 @@ export class DashboardPage implements OnInit {
   }
 
   async ionViewWillEnter() {
+    // Sincronizaar desde firebase al entrar al dashboard
+    console.log('🔄 Sincronizando datos desde el firebase...');
+    try {
+      await this.firebaseSyncService.syncAllFromFirebase();
+    } catch (error) {
+      console.error('Error sincronización final:', error);
+    }
+
     await this.loadDashboardData();
     this.isOnline = this.syncService.getConnectionStatus();
   }
@@ -142,14 +154,23 @@ export class DashboardPage implements OnInit {
   }
 
   async doRefresh(event: any) {
+    // Simcronizar desde fierebase
+    try {
+      await this.firebaseSyncService.syncAllFromFirebase();
+    } catch (error) {
+      console.error('Error en sincronización:', error);
+    }
+
     await this.loadDashboardData();
     event.target.complete();
   }
 
   async sincronizar() {
     try {
+      await this.firebaseSyncService.syncAllFromFirebase();
       await this.syncService.syncAll();
       this.isOnline = this.syncService.getConnectionStatus();
+      await this.loadDashboardData();
     } catch (error) {
       console.error('Error sincronizando:', error);
     }
