@@ -1,5 +1,9 @@
+// Configuración de DESARROLLO
 export const environment = {
   production: false,
+  appName: 'AUTOMOTOSYNC',
+  appVersion: '1.0.0',
+  
   firebaseConfig: {
     apiKey: "AIzaSyA_4hCDVQ1PPqWklRbJySHGooeWHEMs_oE",
     authDomain: "automotosync-c5b81.firebaseapp.com",
@@ -8,5 +12,18 @@ export const environment = {
     messagingSenderId: "411367610410",
     appId: "1:411367610410:web:4f8beb93ca2e4e0857cb53",
     measurementId: "G-7SQ5JK2XVD"
+  },
+
+  app: {
+    defaultCurrency: 'COP',
+    defaultCurrencySymbol: '$',
+    defaultTax: 0.19,
+    defaultLanguage: 'es',
+    apiUrl: 'http://localhost:3000/api'
+  },
+
+  logging: {
+    enableConsoleLog: true,
+    enableRemoteLog: false
   }
 };
