@@ -1,0 +1,148 @@
+⚡ INSTALACIÓN RÁPIDA - AUTOMOTOSYNC v1.0.0
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 ANDROID (APK)
+
+Opción 1: CON ADB (Recomendado para desarrolladores)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Descargar: AUTOMOTOSYNC-v1.0.0.zip
+2. Extraer: AUTOMOTOSYNC-v1.0.0.apk
+3. Conectar dispositivo por USB
+4. Ejecutar: adb install AUTOMOTOSYNC-v1.0.0.apk
+5. ¡Listo! Abre la app en tu dispositivo
+
+Opción 2: SIN ADB (Instalar manualmente)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Descargar: AUTOMOTOSYNC-v1.0.0.zip en tu PC
+2. Transferir: AUTOMOTOSYNC-v1.0.0.apk al dispositivo
+3. Abrir: Gestor de Archivos → Seleccionar APK
+4. Instalar: Permitir instalación de "Fuentes desconocidas"
+5. ¡Listo! Confirma y abre la app
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🍎 iOS (IPA)
+
+Opción 1: TestFlight (Más fácil)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Esperar a recibir invitación por email
+2. Descargar: App TestFlight en App Store
+3. Ingresar: Código de acceso
+4. Instalar: AUTOMOTOSYNC desde TestFlight
+5. ¡Listo! Abre la app desde TestFlight
+
+Opción 2: Xcode (Mac - Para desarrolladores)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Tener: Xcode instalado en Mac
+2. Conectar: iPhone por USB
+3. Abrir: Xcode → Window → Devices and Simulators
+4. Agregar: IPA a la lista de dispositivos
+5. ¡Listo! Instala y abre la app
+
+Opción 3: Apple Configurator 2 (Mac)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Descargar: Apple Configurator 2 (App Store)
+2. Conectar: iPhone por USB
+3. Agregar: Apps → Seleccionar IPA
+4. Instalar: Confirmar instalación
+5. ¡Listo! Abre la app desde el dispositivo
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ PRIMER INICIO
+
+Después de instalar, necesitarás:
+
+1. Email y Contraseña (Firebase)
+   - Usa el email configurado en Firebase
+   - Contraseña asociada a esa cuenta
+
+2. Seleccionar tu Rol
+   - Administrador (Full access)
+   - Gerente (Management)
+   - Mecánico (Técnico)
+   - Recepcionista (Limitado)
+
+3. Permitir Permisos (Android)
+   - Almacenamiento: Para descargar reportes
+   - Cámara: Para capturar evidencia
+   - Ubicación: Opcional, para rutas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 FEATURES PRINCIPALES
+
+✓ Crear órdenes de servicio
+✓ Gestionar clientes y vehículos
+✓ Control de inventario
+✓ Generar facturas automáticas
+✓ Reportes y analytics
+✓ Funciona sin internet (Offline)
+✓ Sincronización automática
+✓ Control de permisos por rol
+✓ Confirmación en acciones peligrosas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 REQUISITOS MÍNIMOS
+
+Android:
+  - Versión: 6.0 o superior
+  - Espacio: ~50 MB
+  - Internet: Para primera sincronización
+
+iOS:
+  - Versión: 12 o superior
+  - Espacio: ~80 MB
+  - Internet: Para primera sincronización
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❓ PROBLEMAS COMUNES
+
+P: "Paquete no válido" (Android)
+R: APK está correctamente firmado. Intenta:
+   - Desinstalar versiones anteriores
+   - Instalar desde PC (no por email)
+   - Reiniciar dispositivo
+
+P: "App no se abre" (iOS)
+R: Probable problema con certificado. Usa:
+   - TestFlight (más fácil)
+   - O reinstala desde Xcode
+
+P: "No conecta a Firebase"
+R: Verifica:
+   - Conexión a Internet
+   - Email y contraseña correctos
+   - Credenciales en Firebase Console
+
+P: "App lenta"
+R: Intenta:
+   - Limpiar caché: Ajustes > Almacenamiento
+   - Cerrar otras apps
+   - Reiniciar dispositivo
+   - Actualizar a la última versión
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📞 SOPORTE
+
+Documentación:
+  - GUIA_INSTALACION.md (pasos detallados)
+  - README_v1.0.0.md (features completas)
+  - RESUMEN_ENTREGA_v1.0.0.md (descripción técnica)
+
+Repositorio:
+  - https://github.com/JuanRestrepo5/AUTOMOTOSYNC_DES
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ ¡Gracias por usar AUTOMOTOSYNC v1.0.0!
+
+Status: ✅ Production Ready
+Versión: 1.0.0
+Fecha: 5 de enero de 2026
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
