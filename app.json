@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "AUTOMOTOSYNC",
+    "slug": "automotosync",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "bundleIdentifier": "com.leo17mart.automotosync",
+      "supportsTablet": true,
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.leo17mart.automotosync",
+      "versionCode": 1
+    },
+    "web": {
+      "favicon": "./src/assets/favicon.ico"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a0e55c82-d578-4929-88d9-21065a1c72fb"
+      }
+    }
+  }
+}
