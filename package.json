@@ -39,6 +39,7 @@
     "@ionic/angular": "^7.5.0",
     "@ionic/angular-toolkit": "^11.0.0",
     "@ionic/storage-angular": "^4.0.0",
+    "expo": "^54.0.30",
     "firebase": "^10.7.0",
     "html2canvas": "^1.4.1",
     "ionicons": "^7.2.0",
